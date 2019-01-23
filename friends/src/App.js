@@ -139,7 +139,10 @@ class App extends Component {
           email: "",
           age: "",
           name: "",
-          updatingId: ""
+          updatingId: "",
+          updating: false,
+          message: "Updated user",
+          open: true
         })
       )
       .catch(error =>
