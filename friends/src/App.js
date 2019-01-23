@@ -42,6 +42,8 @@ class App extends Component {
     const { name, age, email } = this.state;
     if (!name || !age || !email) {
       alert("All Fields Required!!");
+    } else if (typeof age !== "number") {
+      alert("Age must be a number");
     } else {
       axios
         .post(`${URL}/friends`, { email, age, name })
