@@ -51,9 +51,7 @@ class App extends Component {
   };
 
   handleChange = e => {
-    this.setState({ [e.target.name]: e.target.value }, () =>
-      console.log(this.state)
-    );
+    this.setState({ [e.target.name]: e.target.value });
   };
 
   handleDelete = (e, id) => {
@@ -65,7 +63,6 @@ class App extends Component {
   };
 
   handleUpdate = (id, email, age, name) => {
-    console.log("Updatig", id);
     this.setState({ email, age, name, updating: true, updatingId: id });
   };
 
