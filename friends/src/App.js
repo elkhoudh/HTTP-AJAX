@@ -6,6 +6,7 @@ import { withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import NavBar from "./components/NavBar";
 import Form from "./components/Form";
+import Snack from "./components/Snack";
 
 const URL = "http://localhost:5000";
 const styles = theme => ({
@@ -29,8 +30,24 @@ class App extends Component {
     age: "",
     email: "",
     updatingId: "",
-    updating: false
+    updating: false,
+    open: false,
+    message: "New Friend Added",
+    variant: "success"
   };
+
+  handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    this.setState({ open: false });
+  };
+
+  handleClick = () => {
+    this.setState({ open: true });
+  };
+
   componentWillMount = () => {
     axios
       .get(`${URL}/friends`)
@@ -41,14 +58,39 @@ class App extends Component {
   addFriend = e => {
     const { name, age, email } = this.state;
     if (!name || !age || !email) {
-      alert("All Fields Required!!");
-    } else if (typeof age !== "number") {
-      alert("Age must be a number");
+      this.setState({
+        open: true,
+        message: "All Fields Required",
+        variant: "error"
+      });
+    } else if (isNaN(age)) {
+      this.setState({
+        open: true,
+        message: "Age must be a number",
+        variant: "error"
+      });
     } else {
       axios
         .post(`${URL}/friends`, { email, age, name })
-        .then(res => this.setState({ friends: res.data }))
-        .catch(error => this.setState({ error }));
+        .then(res =>
+          this.setState({
+            friends: res.data,
+            message: "New Friend Added",
+            variant: "success",
+            name: "",
+            age: "",
+            email: "",
+            open: true
+          })
+        )
+        .catch(error =>
+          this.setState({
+            error,
+            message: "Error saving friend",
+            variant: "error",
+            open: true
+          })
+        );
     }
   };
 
@@ -60,12 +102,28 @@ class App extends Component {
     e.preventDefault();
     axios
       .delete(`${URL}/friends/${id}`)
-      .then(res => this.setState({ friends: res.data }))
+      .then(res =>
+        this.setState({
+          friends: res.data,
+          open: true,
+          message: `User with ID ${id} was delted`,
+          variant: "success"
+        })
+      )
       .catch(error => this.setState({ error }));
   };
 
   handleUpdate = (id, email, age, name) => {
-    this.setState({ email, age, name, updating: true, updatingId: id });
+    this.setState({
+      email,
+      age,
+      name,
+      updating: true,
+      updatingId: id,
+      message: `Updating ${name}`,
+      open: true,
+      variant: "success"
+    });
   };
 
   submitUpdate = () => {
@@ -84,7 +142,14 @@ class App extends Component {
           updatingId: ""
         })
       )
-      .catch(error => this.setState({ error }));
+      .catch(error =>
+        this.setState({
+          error,
+          open: true,
+          variant: "error",
+          message: "ERROR saving to backend"
+        })
+      );
   };
 
   render() {
@@ -93,6 +158,12 @@ class App extends Component {
     return (
       <>
         <NavBar />
+        <Snack
+          open={this.state.open}
+          handleClose={this.handleClose}
+          message={this.state.message}
+          variant={this.state.variant}
+        />
         <Form
           addFriend={this.addFriend}
           handleChange={this.handleChange}
