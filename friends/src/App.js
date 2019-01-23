@@ -8,7 +8,6 @@ import NavBar from "./components/NavBar";
 import Form from "./components/Form";
 import Snack from "./components/Snack";
 
-const URL = "";
 const styles = theme => ({
   root: {
     flexGrow: 1
@@ -50,7 +49,7 @@ class App extends Component {
 
   componentWillMount = () => {
     axios
-      .get(`${URL}/friends`)
+      .get(`/friends`)
       .then(res => this.setState({ friends: res.data }))
       .catch(error => this.setState({ error }));
   };
@@ -71,7 +70,7 @@ class App extends Component {
       });
     } else {
       axios
-        .post(`${URL}/friends`, { email, age, name })
+        .post(`/friends`, { email, age, name })
         .then(res =>
           this.setState({
             friends: res.data,
@@ -101,7 +100,7 @@ class App extends Component {
   handleDelete = (e, id) => {
     e.preventDefault();
     axios
-      .delete(`${URL}/friends/${id}`)
+      .delete(`/friends/${id}`)
       .then(res =>
         this.setState({
           friends: res.data,
@@ -128,7 +127,7 @@ class App extends Component {
 
   submitUpdate = () => {
     axios
-      .put(`${URL}/friends/${this.state.updatingId}`, {
+      .put(`/friends/${this.state.updatingId}`, {
         email: this.state.email,
         age: this.state.age,
         name: this.state.name
