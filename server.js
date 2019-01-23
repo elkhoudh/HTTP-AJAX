@@ -92,5 +92,3 @@ if (process.env.NODE_ENV === "production") {
 app.listen(5000, () => {
   console.log("server listening on port 5000");
 });
-
-///HELL NAH IT"S NOT
