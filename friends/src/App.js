@@ -84,7 +84,8 @@ class App extends Component {
             name: "",
             age: "",
             email: "",
-            open: true
+            open: true,
+            sliderValue: 0
           })
         )
         .catch(error =>
@@ -148,7 +149,8 @@ class App extends Component {
           updatingId: "",
           updating: false,
           message: "Updated user",
-          open: true
+          open: true,
+          sliderValue: 0
         })
       )
       .catch(error =>
