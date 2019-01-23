@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
+import Slider from "@material-ui/lab/Slider";
+import Typography from "@material-ui/core/Typography";
 
 const styles = theme => ({
   container: {
@@ -24,6 +26,13 @@ const styles = theme => ({
   },
   button: {
     margin: theme.spacing.unit
+  },
+  root: {
+    width: 300
+  },
+  slider: {
+    padding: "45px 0px",
+    width: "100%"
   }
 });
 
@@ -52,7 +61,9 @@ class TextFields extends React.Component {
       handleChange,
       addFriend,
       updating,
-      submitUpdate
+      submitUpdate,
+      sliderValue,
+      handleSliderChange
     } = this.props;
     return (
       <form className={classes.container} noValidate autoComplete="off">
@@ -86,6 +97,16 @@ class TextFields extends React.Component {
           className={classes.textField}
           margin="normal"
         />
+        <div className={classes.root}>
+          <Typography id="label">Love Meter</Typography>
+          <Slider
+            classes={{ container: classes.slider }}
+            value={sliderValue}
+            aria-labelledby="label"
+            onChange={handleSliderChange}
+            name="sliderValue"
+          />
+        </div>
         <Button
           onClick={updating ? submitUpdate : addFriend}
           variant="contained"

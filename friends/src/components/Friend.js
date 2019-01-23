@@ -18,10 +18,16 @@ const Friend = props => {
   return (
     <Chip
       onClick={() =>
-        handleUpdate(friend.id, friend.email, friend.age, friend.name)
+        handleUpdate(
+          friend.id,
+          friend.email,
+          friend.age,
+          friend.name,
+          friend.like
+        )
       }
       icon={<FaceIcon />}
-      label={`${friend.name} ${friend.age} ${friend.email}`}
+      label={`${friend.name} ${friend.age} ${friend.email} ${friend.like}`}
       onDelete={e => handleDelete(e, friend.id)}
       className={classes.chip}
       color="primary"

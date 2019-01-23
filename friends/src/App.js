@@ -32,7 +32,12 @@ class App extends Component {
     updating: false,
     open: false,
     message: "New Friend Added",
-    variant: "success"
+    variant: "success",
+    sliderValue: 0
+  };
+
+  handleSliderChange = (event, sliderValue) => {
+    this.setState({ sliderValue });
   };
 
   handleClose = (event, reason) => {
@@ -55,7 +60,7 @@ class App extends Component {
   };
 
   addFriend = e => {
-    const { name, age, email } = this.state;
+    const { name, age, email, sliderValue } = this.state;
     if (!name || !age || !email) {
       this.setState({
         open: true,
@@ -70,7 +75,7 @@ class App extends Component {
       });
     } else {
       axios
-        .post(`/friends`, { email, age, name })
+        .post(`/friends`, { email, age, name, like: sliderValue })
         .then(res =>
           this.setState({
             friends: res.data,
@@ -112,7 +117,7 @@ class App extends Component {
       .catch(error => this.setState({ error }));
   };
 
-  handleUpdate = (id, email, age, name) => {
+  handleUpdate = (id, email, age, name, sliderValue) => {
     this.setState({
       email,
       age,
@@ -121,7 +126,8 @@ class App extends Component {
       updatingId: id,
       message: `Updating ${name}`,
       open: true,
-      variant: "success"
+      variant: "success",
+      sliderValue
     });
   };
 
@@ -130,7 +136,8 @@ class App extends Component {
       .put(`/friends/${this.state.updatingId}`, {
         email: this.state.email,
         age: this.state.age,
-        name: this.state.name
+        name: this.state.name,
+        like: this.state.sliderValue
       })
       .then(res =>
         this.setState({
@@ -155,8 +162,19 @@ class App extends Component {
   };
 
   render() {
-    const { friends, error, name, age, email, updating } = this.state;
+    console.log(this.state.sliderValue);
+    const {
+      friends,
+      error,
+      name,
+      age,
+      email,
+      updating,
+      sliderValue
+    } = this.state;
+
     const { classes } = this.props;
+
     return (
       <>
         <NavBar />
@@ -167,6 +185,8 @@ class App extends Component {
           variant={this.state.variant}
         />
         <Form
+          handleSliderChange={this.handleSliderChange}
+          sliderValue={sliderValue}
           addFriend={this.addFriend}
           handleChange={this.handleChange}
           name={name}
