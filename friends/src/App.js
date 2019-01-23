@@ -8,7 +8,7 @@ import NavBar from "./components/NavBar";
 import Form from "./components/Form";
 import Snack from "./components/Snack";
 
-const URL = "http://localhost:5000";
+const URL = "";
 const styles = theme => ({
   root: {
     flexGrow: 1
